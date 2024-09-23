@@ -86,6 +86,7 @@
               </button>
               <button
                 class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-md"
+                @click.prevent="deleteOneById(contact.id)"
               >
                 Supprimer
               </button>
@@ -127,6 +128,12 @@
             this.inputContact.id = Date.now();
             this.contacts.push({ ...this.inputContact });
             this.inputContact = { id: null, name: "", email: "", phone: "" };
+          },
+          deleteOneById(id) {
+            this.contacts.splice(
+              this.contacts.findIndex((item) => item.id == id),
+              1
+            );
           },
         },
       }).mount("#app");
