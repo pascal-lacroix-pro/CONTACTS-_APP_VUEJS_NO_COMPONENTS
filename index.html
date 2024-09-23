@@ -163,6 +163,14 @@
             this.isEditing = false;
           },
         },
+        watch: {
+          contacts: {
+            handler(newValue, oldValue) {
+              localStorage.setItem("contacts", JSON.stringify(newValue));
+            },
+            deep: true,
+          },
+        },
       }).mount("#app");
     </script>
   </body>
