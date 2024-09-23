@@ -42,11 +42,21 @@
             v-model="inputContact.email"
           />
         </div>
+        <!-- BOUTON AJOUTER -->
         <button
           class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md"
           @click.prevent="addOne()"
+          v-if="!isEditing"
         >
-          Ajouter/Modifier le contact
+          Ajouter un contact
+        </button>
+        <!-- BOUTON MODIFIER -->
+        <button
+          class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md"
+          @click.prevent="updateOneById(inputContact.id)"
+          v-else
+        >
+          Modifier le contact
         </button>
       </aside>
 
@@ -81,6 +91,7 @@
             <div class="flex space-x-2">
               <button
                 class="bg-yellow-400 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded-md"
+                @click.prevent="editOneById(contact.id)"
               >
                 Modifier
               </button>
@@ -116,6 +127,7 @@
           return {
             contacts: JSON.parse(localStorage.getItem("contacts")) || [],
             inputContact: { id: null, name: "", email: "", phone: "" },
+            isEditing: false,
           };
         },
         computed: {
@@ -134,6 +146,21 @@
               this.contacts.findIndex((item) => item.id == id),
               1
             );
+          },
+          editOneById(id) {
+            this.isEditing = true;
+            this.inputContact = {
+              ...this.contacts.find((item) => item.id == id),
+            };
+          },
+          updateOneById(id) {
+            this.contacts.splice(
+              this.contacts.findIndex((item) => item.id == id),
+              1,
+              { ...this.inputContact }
+            );
+            this.inputContact = { id: null, name: "", email: "", phone: "" };
+            this.isEditing = false;
           },
         },
       }).mount("#app");
