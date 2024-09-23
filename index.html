@@ -49,7 +49,9 @@
       <!-- Section droite pour la liste des contacts -->
       <section class="w-2/3 p-6">
         <h2 class="text-xl font-bold mb-4">Liste des Contacts</h2>
-        <p class="text-gray-600 mb-4">Nombre de contacts : xxx</p>
+        <p class="text-gray-600 mb-4">
+          Nombre de contacts : {{ contactsCount }}
+        </p>
 
         <!-- Filtre de recherche -->
         <div class="mb-4">
@@ -64,11 +66,13 @@
         <ul class="space-y-4">
           <li
             class="flex justify-between items-center bg-gray-50 p-4 rounded-lg shadow-sm"
+            v-for="contact in contacts"
+            :key="contact.id"
           >
             <div>
-              <p class="text-lg font-semibold">Name</p>
-              <p class="text-gray-600">phone</p>
-              <p class="text-gray-600">email</p>
+              <p class="text-lg font-semibold">{{ contact.name }}</p>
+              <p class="text-gray-600">{{ contact.phone }}</p>
+              <p class="text-gray-600">{{ contact.email }}</p>
             </div>
             <div class="flex space-x-2">
               <button
@@ -101,6 +105,19 @@
       //     },
       //   ])
       // );
+
+      Vue.createApp({
+        data() {
+          return {
+            contacts: JSON.parse(localStorage.getItem("contacts")) || [],
+          };
+        },
+        computed: {
+          contactsCount() {
+            return this.contacts.length;
+          },
+        },
+      }).mount("#app");
     </script>
   </body>
 </html>
