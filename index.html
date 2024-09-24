@@ -80,7 +80,7 @@
         <ul class="space-y-4">
           <li
             class="flex justify-between items-center bg-gray-50 p-4 rounded-lg shadow-sm"
-            v-for="contact in contacts"
+            v-for="contact in sortedContacts"
             :key="contact.id"
           >
             <div>
@@ -133,6 +133,11 @@
         computed: {
           contactsCount() {
             return this.contacts.length;
+          },
+          sortedContacts() {
+            return this.contacts.sort((a, b) => {
+              return a.name.localeCompare(b.name);
+            });
           },
         },
         methods: {
